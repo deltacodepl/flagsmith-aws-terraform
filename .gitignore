@@ -1,0 +1,12 @@
+__pycache__
+.DS_Store
+*.sqlite3
+.terraform
+.terraform.lock.hcl
+env
+templates/fix.json
+*.vscode/
+terraform/*.tfstate*
+terraform/*.tfplan
+terraform/*.lock.hcl
+deploy

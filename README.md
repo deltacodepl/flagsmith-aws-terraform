@@ -40,8 +40,8 @@ AWS infrastructure consists of:
     capacity_provider_strategy {
       capacity_provider = "FARGATE"
       weight            = 0
-    }```
-
+    }
+    ```
 4. Generate plan for infrastructure ```terraform plan -out flagsmith.tfplan```
 5. Apply infrastructure by running ```terraform apply flagsmith.tfplan```
 

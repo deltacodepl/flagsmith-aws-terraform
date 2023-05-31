@@ -7,10 +7,9 @@ settings_module = {
   "dev"        = "app.settings.develop"
 }
 
-route53_hosted_zone = "unifoil.eu"
+route53_hosted_zone = 
+certificate_arn = 
 region = "eu-central-1"
-certificate_arn = "arn:aws:acm:eu-central-1:208456122390:certificate/1a6e9dd4-cffa-476b-a2ea-f03fa2b773e1"
-
 docker_image_url = "flagsmith/flagsmith:latest"
 
 allowed_hosts = "*"

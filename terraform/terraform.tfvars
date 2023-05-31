@@ -7,8 +7,8 @@ settings_module = {
   "dev"        = "app.settings.develop"
 }
 
-route53_hosted_zone = 
-certificate_arn = 
+route53_hosted_zone = ""
+certificate_arn = ""
 region = "eu-central-1"
 docker_image_url = "flagsmith/flagsmith:latest"
 

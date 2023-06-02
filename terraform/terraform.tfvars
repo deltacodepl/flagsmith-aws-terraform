@@ -8,11 +8,11 @@ settings_module = {
 }
 
 route53_hosted_zone = ""
-certificate_arn = ""
-region = "eu-central-1"
-docker_image_url = "flagsmith/flagsmith:latest"
+certificate_arn     = ""
+region              = "eu-central-1"
+docker_image_url    = "flagsmith/flagsmith:latest"
 
 allowed_hosts = "*"
 
-cpu = 512
+cpu    = 512
 memory = 1024

@@ -25,7 +25,7 @@ resource "aws_ssm_parameter" "db_password" {
 
 resource "aws_ssm_parameter" "db_host" {
   name   = "/${var.app_name}/${var.app_environment}/rds_host"
-  value  = aws_db_instance.production.address
+  value  = aws_db_instance.postgres.address
   type   = "SecureString"
   key_id = var.ssm_kms_key
 }

@@ -8,7 +8,7 @@ resource "aws_route53_record" "subdomain" {
   name    = "${var.app_name}.${data.aws_route53_zone.selected.name}"
   type    = "CNAME"
   ttl     = "300"
-  records = [aws_lb.production.dns_name]
+  records = [aws_lb.ecs-alb.dns_name]
 }
 
 resource "aws_route53_record" "www" {

@@ -4,9 +4,29 @@ resource "aws_iam_role" "ecs_host_role" {
 }
 
 resource "aws_iam_role_policy" "ecs-host-role-policy" {
-  name   = "${var.app_name}-ecs-host-role-policy"
-  policy = file("policies/ecs-host-role-policy.json")
-  role   = aws_iam_role.ecs_host_role.id
+  name = "${var.app_name}-ecs-host-role-policy"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "cloudwatch:PutMetricData",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+        ],
+        "Resource" : "*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["ssm:GetParameters"],
+        Resource = ["arn:aws:ssm:${var.region}:${local.AWS_ACCOUNT_ID}:parameter/${var.app_name}/*"]
+      },
+    ]
+    }
+  )
+  role = aws_iam_role.ecs_host_role.id
 }
 
 resource "aws_iam_role" "ecs_task" {
@@ -21,8 +41,8 @@ resource "aws_iam_role_policy" "ecs_task" {
     Statement = [
       {
         Effect   = "Allow"
-        Action   = ["secretsmanager:GetSecretValue", "ssm:GetParameters"],
-        Resource = ["arn:aws:ssm:${var.region}:${local.AWS_ACCOUNT_ID}:parameter/${var.app_name}/"]
+        Action   = ["ssm:GetParameters"],
+        Resource = ["arn:aws:ssm:${var.region}:${local.AWS_ACCOUNT_ID}:parameter/${var.app_name}/*"]
       },
       # used for ECS Exec
       {
@@ -33,7 +53,7 @@ resource "aws_iam_role_policy" "ecs_task" {
           "ssmmessages:OpenControlChannel",
           "ssmmessages:OpenDataChannel"
         ],
-        "Resource" : "*"
+        "Resource" : "arn:aws:ecs:${var.region}:${local.AWS_ACCOUNT_ID}:cluster/${local.ecs_cluster_name}"
       }
     ]
   })

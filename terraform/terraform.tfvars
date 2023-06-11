@@ -1,6 +1,6 @@
 # Application Definition 
 app_name        = "flagsmith"
-app_environment = "production"
+app_environment = "dev"
 
 settings_module = {
   "production" = "app.settings.production",

@@ -1,5 +1,5 @@
-# Production Load Balancer
-resource "aws_lb" "production" {
+# Load Balancer
+resource "aws_lb" "ecs-alb" {
   name               = "${local.ecs_cluster_name}-alb"
   load_balancer_type = "application"
   internal           = false
@@ -26,13 +26,29 @@ resource "aws_alb_target_group" "default-target-group" {
   }
 }
 
+# Listener, redirects HTTP to HTTPS
+resource "aws_alb_listener" "ecs-alb-http-listener" {
+  load_balancer_arn = aws_lb.ecs-alb.id
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
 
 # Listener (redirects traffic from the load balancer to the target group)
-resource "aws_alb_listener" "ecs-alb-http-listener" {
-  load_balancer_arn = aws_lb.production.id
+resource "aws_alb_listener" "ecs-alb-https-listener" {
+  load_balancer_arn = aws_lb.ecs-alb.id
   port              = "443"
   protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
   certificate_arn   = var.certificate_arn
   depends_on        = [aws_alb_target_group.default-target-group]
 

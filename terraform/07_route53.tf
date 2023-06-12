@@ -10,11 +10,3 @@ resource "aws_route53_record" "subdomain" {
   ttl     = "300"
   records = [aws_lb.ecs-alb.dns_name]
 }
-
-resource "aws_route53_record" "www" {
-  zone_id = data.aws_route53_zone.selected.zone_id
-  name    = "www.${aws_route53_record.subdomain.name}"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [aws_route53_record.subdomain.name]
-}

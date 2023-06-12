@@ -6,9 +6,8 @@ settings_module = {
   "production" = "app.settings.production",
   "dev"        = "app.settings.develop"
 }
-
+# your domain
 route53_hosted_zone = ""
-certificate_arn     = ""
 region              = "eu-central-1"
 docker_image_url    = "flagsmith/flagsmith:latest"
 

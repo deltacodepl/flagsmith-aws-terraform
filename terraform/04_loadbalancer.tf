@@ -1,3 +1,8 @@
+data "aws_acm_certificate" "certificate" {
+  domain   = "*.${data.aws_route53_zone.selected.name}"
+  statuses = ["ISSUED"]
+}
+
 # Load Balancer
 resource "aws_lb" "ecs-alb" {
   name               = "${local.ecs_cluster_name}-alb"
@@ -44,16 +49,38 @@ resource "aws_alb_listener" "ecs-alb-http-listener" {
 }
 
 # Listener (redirects traffic from the load balancer to the target group)
+# Check for latest  ssl policy https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies
 resource "aws_alb_listener" "ecs-alb-https-listener" {
   load_balancer_arn = aws_lb.ecs-alb.id
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
-  certificate_arn   = var.certificate_arn
+  certificate_arn   = data.aws_acm_certificate.certificate.arn
   depends_on        = [aws_alb_target_group.default-target-group]
 
   default_action {
-    type             = "forward"
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "OK"
+      status_code  = "200"
+    }
+  }
+
+}
+# matches header with configured flagsmith subdomain
+resource "aws_alb_listener_rule" "host_header" {
+  listener_arn = aws_alb_listener.ecs-alb-https-listener.arn
+  priority     = 100
+
+  condition {
+    host_header {
+      values = ["${var.app_name}.${data.aws_route53_zone.selected.name}"]
+    }
+  }
+  action {
+    type            = "forward"
     target_group_arn = aws_alb_target_group.default-target-group.arn
   }
 }

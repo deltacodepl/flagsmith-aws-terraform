@@ -1,6 +1,6 @@
 resource "aws_iam_role" "ecs_host_role" {
   name               = "${var.app_name}-ecs-host-role-${var.app_environment}"
-  assume_role_policy = file("policies/ecs-host-role.json")
+  assume_role_policy = file("policies/ecs-task-role.json")
 }
 
 resource "aws_iam_role_policy" "ecs-host-role-policy" {
@@ -22,7 +22,7 @@ resource "aws_iam_role_policy" "ecs-host-role-policy" {
         Effect   = "Allow"
         Action   = ["ssm:GetParameters"],
         Resource = ["arn:aws:ssm:${var.region}:${local.AWS_ACCOUNT_ID}:parameter/${var.app_name}/*"]
-      },
+      }
     ]
     }
   )
@@ -31,7 +31,7 @@ resource "aws_iam_role_policy" "ecs-host-role-policy" {
 
 resource "aws_iam_role" "ecs_task" {
   name               = "${var.app_name}-ecs-task"
-  assume_role_policy = file("policies/ecs-host-role.json")
+  assume_role_policy = file("policies/ecs-task-role.json")
 }
 
 resource "aws_iam_role_policy" "ecs_task" {
@@ -43,17 +43,6 @@ resource "aws_iam_role_policy" "ecs_task" {
         Effect   = "Allow"
         Action   = ["ssm:GetParameters"],
         Resource = ["arn:aws:ssm:${var.region}:${local.AWS_ACCOUNT_ID}:parameter/${var.app_name}/*"]
-      },
-      # used for ECS Exec
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "ssmmessages:CreateControlChannel",
-          "ssmmessages:CreateDataChannel",
-          "ssmmessages:OpenControlChannel",
-          "ssmmessages:OpenDataChannel"
-        ],
-        "Resource" : "arn:aws:ecs:${var.region}:${local.AWS_ACCOUNT_ID}:cluster/${local.ecs_cluster_name}"
       }
     ]
   })

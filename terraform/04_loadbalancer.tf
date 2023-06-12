@@ -63,8 +63,8 @@ resource "aws_alb_listener" "ecs-alb-https-listener" {
 
     fixed_response {
       content_type = "text/plain"
-      message_body = "OK"
-      status_code  = "200"
+      message_body = "Bad Request"
+      status_code  = "400"
     }
   }
 
@@ -72,7 +72,7 @@ resource "aws_alb_listener" "ecs-alb-https-listener" {
 # matches header with configured flagsmith subdomain
 resource "aws_alb_listener_rule" "host_header" {
   listener_arn = aws_alb_listener.ecs-alb-https-listener.arn
-  priority     = 100
+  priority     = 10
 
   condition {
     host_header {

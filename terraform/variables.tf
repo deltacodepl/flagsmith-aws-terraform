@@ -1,5 +1,5 @@
 variable "region" {
-  type = string
+  type        = string
   description = "The AWS region to create resources in."
 }
 
@@ -23,7 +23,7 @@ variable "vpc_cidr" {
 # load balancer
 
 variable "health_check_path" {
-  type = string
+  type        = string
   description = "Health check path for the default target group"
   default     = "/health/"
 }
@@ -32,19 +32,19 @@ variable "health_check_path" {
 
 
 variable "docker_image_url" {
-  type = string
+  type        = string
   description = "Docker image to run in the ECS cluster"
 }
 
 variable "app_count" {
-  type = number
+  type        = number
   description = "Number of Docker containers to run"
   default     = 2
 }
 
 # FIXME
 variable "allowed_hosts" {
-  type = string
+  type        = string
   description = "Domain name for allowed hosts"
 }
 
@@ -52,7 +52,7 @@ variable "allowed_hosts" {
 # logs
 
 variable "log_retention_in_days" {
-  type = number
+  type    = number
   default = 7
 }
 
@@ -69,25 +69,25 @@ variable "ssm_kms_key" {
 }
 
 variable "rds_db_name" {
-  type = string
+  type        = string
   description = "RDS database name"
   default     = "flagsmithdb"
 }
 
 variable "rds_username" {
-  type = string
+  type        = string
   description = "RDS database username"
   default     = "flagsmithdbuser"
 }
 
 variable "rds_password" {
-  type = string
+  type        = string
   description = "RDS database password"
   default     = ""
 }
 
 variable "rds_instance_class" {
-  type = string
+  type        = string
   description = "RDS instance type"
   default     = "db.t3.micro"
 }
@@ -102,7 +102,7 @@ variable "route53_hosted_zone" {
 # Django
 
 variable "django_secret_key" {
-  type =  string
+  type        = string
   description = "Django env. variable DJANGO_SECRET_KEY"
   default     = ""
 }

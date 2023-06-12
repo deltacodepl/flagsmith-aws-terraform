@@ -80,7 +80,7 @@ resource "aws_alb_listener_rule" "host_header" {
     }
   }
   action {
-    type            = "forward"
+    type             = "forward"
     target_group_arn = aws_alb_target_group.default-target-group.arn
   }
 }

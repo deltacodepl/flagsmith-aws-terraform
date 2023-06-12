@@ -12,6 +12,9 @@ resource "aws_iam_role_policy" "ecs-host-role-policy" {
       {
         "Effect" : "Allow",
         "Action" : [
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
           "cloudwatch:PutMetricData",
           "logs:CreateLogStream",
           "logs:PutLogEvents",

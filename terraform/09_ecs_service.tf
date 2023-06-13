@@ -1,7 +1,6 @@
-data "template_file" "app" {
-  template = file("templates/flagsmith.json")
-
-  vars = {
+resource "aws_ecs_task_definition" "app" {
+  family = "flagsmith"
+  container_definitions = templatefile("templates/flagsmith.json", {
     container_name   = var.app_name
     docker_image_url = var.docker_image_url
     region           = var.region
@@ -11,12 +10,7 @@ data "template_file" "app" {
     AWS_ACCOUNT_ID  = local.AWS_ACCOUNT_ID
     app_environment = var.app_environment
     app_name        = var.app_name
-  }
-}
-
-resource "aws_ecs_task_definition" "app" {
-  family                   = "flagsmith"
-  container_definitions    = data.template_file.app.rendered
+  })
   depends_on               = [aws_db_instance.postgres]
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"

@@ -4,6 +4,7 @@ variable "region" {
 }
 
 variable "app_environment" {
+  type    = string
   default = "dev"
 }
 

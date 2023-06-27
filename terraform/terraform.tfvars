@@ -2,12 +2,8 @@
 app_name        = "flagsmith"
 app_environment = "dev"
 
-settings_module = {
-  "production" = "app.settings.production",
-  "dev"        = "app.settings.develop"
-}
 # your domain
-route53_hosted_zone = ""
+route53_hosted_zone = "unifoil.eu"
 region              = "eu-central-1"
 docker_image_url    = "flagsmith/flagsmith:latest"
 

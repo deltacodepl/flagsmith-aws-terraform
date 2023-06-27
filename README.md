@@ -2,7 +2,7 @@
 
 ## Deploying Flagsmith to AWS ECS (with whitenoise)
 
-### This is an example, how can Flagsmith can be hosted, 
+### This is an example, how Flagsmith can be hosted, 
 ### This is not production ready solution
 
 ## AWS infrastructure consists of:
